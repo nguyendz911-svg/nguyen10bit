@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>YOUR NAME — Cinematographer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0a;
+  --bg2:#111111;
+  --bg3:#181818;
+  --white:#f4f2ee;
+  --muted:#888;
+  --accent:#e8c547;
+  --accent2:#d4502a;
+  --border:rgba(244,242,238,0.08);
+  --radius:4px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:70px;
+  background:rgba(10,10,10,0.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  transition:background 0.3s;
+}
+.nav-logo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;
+  letter-spacing:0.06em;color:var(--white);text-decoration:none;
+  display:flex;align-items:center;gap:10px;
+}
+.nav-logo-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;display:inline-block}
+.nav-links{display:flex;gap:8px;list-style:none}
+.nav-links a{
+  font-size:0.78rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;padding:8px 14px;border-radius:var(--radius);
+  transition:color 0.2s,background 0.2s;
+}
+.nav-links a:hover{color:var(--white);background:rgba(255,255,255,0.05)}
+.nav-cta{
+  font-family:'Syne',sans-serif;font-size:0.75rem;font-weight:700;
+  letter-spacing:0.12em;text-transform:uppercase;
+  background:var(--accent);color:#000;
+  padding:9px 20px;border-radius:var(--radius);text-decoration:none;
+  transition:opacity 0.2s,transform 0.2s;
+}
+.nav-cta:hover{opacity:0.85;transform:translateY(-1px)}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 48px 80px;position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(232,197,71,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(212,80,42,0.06) 0%, transparent 55%),
+    linear-gradient(170deg,#0e0c09 0%,#0a0a0a 100%);
+}
+/* animated grid lines */
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(244,242,238,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244,242,238,0.025) 1px, transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%);
+}
+.hero-eyeline{
+  position:absolute;top:0;bottom:0;left:48px;
+  width:1px;background:linear-gradient(to bottom,transparent,rgba(232,197,71,0.15),transparent);
+}
+.hero-tag{
+  position:relative;z-index:2;
+  font-size:0.7rem;font-weight:500;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:20px;
+  display:flex;align-items:center;gap:12px;
+  opacity:0;animation:fadeUp 0.9s 0.2s forwards;
+}
+.hero-tag::before{content:'';width:32px;height:1px;background:var(--accent)}
+.hero-h1{
+  position:relative;z-index:2;
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(3.5rem,10vw,10rem);line-height:0.92;
+  letter-spacing:-0.02em;
+  opacity:0;animation:fadeUp 0.9s 0.4s forwards;
+}
+.hero-h1 span{
+  display:block;color:transparent;
+  -webkit-text-stroke:1.5px rgba(244,242,238,0.2);
+}
+.hero-sub{
+  position:relative;z-index:2;
+  font-size:clamp(0.9rem,1.5vw,1.1rem);color:var(--muted);
+  font-weight:300;font-style:italic;
+  margin-top:28px;max-width:500px;line-height:1.7;
+  opacity:0;animation:fadeUp 0.9s 0.65s forwards;
+}
+.hero-actions{
+  position:relative;z-index:2;
+  display:flex;gap:16px;margin-top:44px;
+  opacity:0;animation:fadeUp 0.9s 0.85s forwards;
+}
+.btn-primary{
+  font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;
+  background:var(--accent);color:#000;
+  padding:14px 28px;border-radius:var(--radius);
+  transition:transform 0.2s,opacity 0.2s;
+}
+.btn-primary:hover{transform:translateY(-2px);opacity:0.9}
+.btn-ghost{
+  font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;
+  color:var(--white);
+  padding:14px 28px;border-radius:var(--radius);
+  border:1px solid var(--border);
+  transition:border-color 0.2s,background 0.2s;
+}
+.btn-ghost:hover{border-color:rgba(244,242,238,0.3);background:rgba(255,255,255,0.04)}
+.hero-scroll-hint{
+  position:absolute;bottom:36px;right:48px;z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:fadeIn 1s 1.3s forwards;
+}
+.hero-scroll-hint span{
+  font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);
+  writing-mode:vertical-rl;
+}
+.scroll-bar{width:1px;height:48px;background:linear-gradient(to bottom,var(--accent),transparent);animation:pulse 2s infinite}
+
+/* ── TICKER ── */
+.ticker-wrap{
+  overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:16px 0;background:var(--bg2);
+}
+.ticker{
+  display:flex;gap:0;white-space:nowrap;
+  animation:ticker 25s linear infinite;
+}
+.ticker-item{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:0.65rem;
+  letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);
+  padding:0 40px;flex-shrink:0;
+}
+.ticker-item.hi{color:var(--accent)}
+
+/* ── SECTION COMMON ── */
+section{padding:100px 48px}
+.sec-label{
+  font-size:0.65rem;font-weight:500;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;
+}
+.sec-label::before{content:'';width:24px;height:1px;background:var(--accent)}
+.sec-title{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(2rem,4vw,3.2rem);line-height:1.05;
+  letter-spacing:-0.01em;margin-bottom:56px;
+}
+.sec-title em{font-style:italic;color:var(--muted);font-weight:400}
+
+/* ── SERVICES ── */
+.services-section{background:var(--bg)}
+.services-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);
+}
+.service-card{
+  background:var(--bg);padding:40px 36px;
+  transition:background 0.3s;position:relative;overflow:hidden;
+}
+.service-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:2px;background:var(--accent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.service-card:hover{background:var(--bg3)}
+.service-card:hover::before{transform:scaleX(1)}
+.service-num{
+  font-family:'Syne',sans-serif;font-size:0.6rem;font-weight:700;
+  letter-spacing:0.2em;color:var(--accent);margin-bottom:20px;display:block;
+}
+.service-icon{
+  width:44px;height:44px;margin-bottom:20px;
+  background:rgba(232,197,71,0.08);border-radius:var(--radius);
+  display:flex;align-items:center;justify-content:center;
+}
+.service-icon svg{width:22px;height:22px;stroke:var(--accent);fill:none;stroke-width:1.5}
+.service-name{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;
+  color:var(--white);margin-bottom:12px;line-height:1.2;
+}
+.service-desc{font-size:0.85rem;color:var(--muted);line-height:1.7;font-weight:300}
+.service-arrow{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:0.7rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--accent);text-decoration:none;margin-top:20px;
+  opacity:0;transform:translateX(-8px);
+  transition:opacity 0.3s,transform 0.3s;
+}
+.service-card:hover .service-arrow{opacity:1;transform:translateX(0)}
+
+/* ── PORTFOLIO ── */
+.portfolio-section{background:var(--bg2);padding-bottom:120px}
+.filter-bar{
+  display:flex;gap:8px;flex-wrap:wrap;margin-bottom:48px;
+}
+.filter-btn{
+  font-size:0.72rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  padding:8px 16px;border-radius:20px;border:1px solid var(--border);
+  background:transparent;color:var(--muted);cursor:pointer;
+  transition:all 0.2s;
+}
+.filter-btn:hover,.filter-btn.active{
+  background:var(--accent);color:#000;border-color:var(--accent);font-weight:700;
+}
+.portfolio-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.portfolio-item{
+  position:relative;overflow:hidden;border-radius:var(--radius);
+  background:var(--bg3);cursor:pointer;
+  transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.portfolio-item:hover{transform:translateY(-4px)}
+.portfolio-item:nth-child(1){grid-column:span 2}
+.portfolio-item:nth-child(5){grid-column:span 2}
+.portfolio-thumb{
+  width:100%;aspect-ratio:16/9;display:block;
+  object-fit:cover;
+  transition:transform 0.6s cubic-bezier(0.4,0,0.2,1),filter 0.4s;
+  filter:brightness(0.7) saturate(0.7);
+}
+.portfolio-item:hover .portfolio-thumb{transform:scale(1.04);filter:brightness(0.5) saturate(0.5)}
+
+/* Colored placeholder blocks */
+.portfolio-placeholder{
+  width:100%;aspect-ratio:16/9;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+.portfolio-item:hover .portfolio-placeholder{transform:scale(1.04)}
+.p1{background:linear-gradient(135deg,#1c1409 0%,#2e2010 50%,#0f0a05 100%)}
+.p2{background:linear-gradient(135deg,#091018 0%,#0f1e2e 50%,#050c14 100%)}
+.p3{background:linear-gradient(135deg,#0d1a0d 0%,#162614 50%,#080f08 100%)}
+.p4{background:linear-gradient(135deg,#180c09 0%,#26150e 50%,#0f0705 100%)}
+.p5{background:linear-gradient(135deg,#14100a 0%,#201a10 50%,#0a0806 100%)}
+.p6{background:linear-gradient(135deg,#0a0d18 0%,#141a2a 50%,#06080f 100%)}
+
+.thumb-icon{opacity:0.08;transition:opacity 0.3s}
+.portfolio-item:hover .thumb-icon{opacity:0.04}
+
+.play-btn{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(0.8);
+  width:56px;height:56px;
+  background:rgba(232,197,71,0.9);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity 0.3s,transform 0.3s;
+  z-index:3;
+}
+.play-btn svg{width:18px;height:18px;fill:#000;margin-left:3px}
+.portfolio-item:hover .play-btn{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+.portfolio-info{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px;
+  background:linear-gradient(to top,rgba(10,10,10,0.95) 0%,transparent 100%);
+  transform:translateY(6px);
+  transition:transform 0.35s;
+}
+.portfolio-item:hover .portfolio-info{transform:translateY(0)}
+.portfolio-cat{
+  font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:4px;
+}
+.portfolio-title{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;
+  color:var(--white);line-height:1.2;
+}
+.portfolio-client{font-size:0.75rem;color:var(--muted);margin-top:4px}
+
+/* ── CLIENTS ── */
+.clients-section{
+  background:var(--bg);padding:80px 48px;
+  border-top:1px solid var(--border);
+}
+.clients-label{
+  font-size:0.65rem;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--muted);text-align:center;margin-bottom:48px;
+}
+.clients-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);
+}
+.client-cell{
+  background:var(--bg);padding:32px 24px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s;
+}
+.client-cell:hover{background:var(--bg3)}
+.client-name{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;
+  letter-spacing:0.06em;color:rgba(244,242,238,0.25);
+  text-transform:uppercase;text-align:center;
+  transition:color 0.2s;
+}
+.client-cell:hover .client-name{color:rgba(244,242,238,0.7)}
+
+/* ── ABOUT ── */
+.about-section{
+  background:var(--bg2);
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.about-visual{
+  position:relative;
+}
+.about-img-wrap{
+  aspect-ratio:4/5;background:var(--bg3);
+  position:relative;overflow:hidden;
+}
+.about-img-fill{
+  width:100%;height:100%;
+  background:linear-gradient(160deg,#1a1510 0%,#0d0a07 60%,#1e1a12 100%);
+  display:flex;align-items:center;justify-content:center;
+}
+.about-img-fill svg{opacity:0.06}
+.about-badge{
+  position:absolute;bottom:-20px;right:-20px;
+  width:120px;height:120px;
+  background:var(--accent);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;
+}
+.about-badge-num{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;
+  color:#000;line-height:1;
+}
+.about-badge-label{
+  font-size:0.55rem;font-weight:700;letter-spacing:0.2em;
+  text-transform:uppercase;color:rgba(0,0,0,0.6);
+}
+.about-text{}
+.about-text .sec-title{margin-bottom:28px}
+.about-body{
+  font-size:0.95rem;line-height:1.85;color:var(--muted);
+  font-weight:300;margin-bottom:20px;
+}
+.about-body strong{color:var(--white);font-weight:500}
+.about-gear{margin-top:36px}
+.gear-label{
+  font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:16px;
+}
+.gear-tags{display:flex;flex-wrap:wrap;gap:8px}
+.gear-tag{
+  font-size:0.72rem;font-weight:500;letter-spacing:0.05em;
+  padding:6px 14px;border:1px solid var(--border);
+  border-radius:2px;color:var(--muted);
+  transition:border-color 0.2s,color 0.2s;
+}
+.gear-tag:hover{border-color:var(--accent);color:var(--white)}
+
+/* ── STATS BAR ── */
+.stats-bar{
+  background:var(--accent);
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;
+}
+.stat-cell{
+  background:var(--accent);
+  padding:40px 32px;
+  position:relative;
+}
+.stat-cell::after{
+  content:'';position:absolute;right:0;top:20%;bottom:20%;
+  width:1px;background:rgba(0,0,0,0.15);
+}
+.stat-cell:last-child::after{display:none}
+.stat-n{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:3rem;
+  color:#000;line-height:1;display:block;
+}
+.stat-l{
+  font-size:0.7rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;
+  color:rgba(0,0,0,0.55);margin-top:4px;display:block;
+}
+
+/* ── CONTACT ── */
+.contact-section{
+  background:var(--bg);
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;
+}
+.contact-title{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(2.8rem,7vw,6rem);line-height:0.92;
+  letter-spacing:-0.02em;
+}
+.contact-title span{
+  display:block;color:transparent;
+  -webkit-text-stroke:1.5px rgba(244,242,238,0.18);
+}
+.contact-right{}
+.contact-desc{
+  font-size:0.95rem;line-height:1.8;color:var(--muted);
+  font-weight:300;margin-bottom:40px;
+  border-left:2px solid var(--accent);padding-left:20px;
+}
+.contact-info{margin-bottom:40px}
+.contact-row{
+  display:flex;align-items:baseline;gap:16px;
+  padding:14px 0;border-bottom:1px solid var(--border);
+}
+.contact-row-label{
+  font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--muted);min-width:80px;
+}
+.contact-row-val{
+  font-family:'Syne',sans-serif;font-weight:600;font-size:0.95rem;
+  color:var(--white);text-decoration:none;
+  transition:color 0.2s;
+}
+.contact-row-val:hover{color:var(--accent)}
+.socials{display:flex;gap:12px;flex-wrap:wrap}
+.social-pill{
+  font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+  padding:9px 18px;border:1px solid var(--border);border-radius:2px;
+  color:var(--muted);text-decoration:none;
+  transition:all 0.2s;
+}
+.social-pill:hover{background:var(--accent);color:#000;border-color:var(--accent)}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--bg2);
+  padding:28px 48px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--border);
+}
+.footer-left{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;
+  letter-spacing:0.06em;
+}
+.footer-right{
+  font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;
+}
+
+/* ── VIDEO MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,0.95);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-inner{
+  width:90vw;max-width:960px;position:relative;
+}
+.modal-close{
+  position:absolute;top:-48px;right:0;
+  background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;
+  font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.1em;
+  transition:color 0.2s;display:flex;align-items:center;gap:8px;
+}
+.modal-close:hover{color:var(--white)}
+.modal-video{
+  width:100%;aspect-ratio:16/9;background:#000;
+}
+.modal-video iframe{width:100%;height:100%;border:none}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes pulse{0%,100%{opacity:0.3;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.1)}}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.on{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    YOUR NAME
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book a Call</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-eyeline"></div>
+
+  <p class="hero-tag">Cinematographer · Director of Photography</p>
+  <h1 class="hero-h1">
+    Light<br>
+    <span>Stories.</span>
+  </h1>
+  <p class="hero-sub">Crafting visual narratives for brands, artists, and storytellers.<br>Based in Hanoi — working worldwide.</p>
+  <div class="hero-actions">
+    <a href="#work" class="btn-primary">View My Work</a>
+    <a href="#contact" class="btn-ghost">Get In Touch</a>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <div class="scroll-bar"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker">
+    <span class="ticker-item hi">✦</span>
+    <span class="ticker-item">TVC Production</span>
+    <span class="ticker-item hi">✦</span>
+    <span class="ticker-item">Documentary</span>
+    <span class="ticker-item hi">✦</span>
+    <span class="ticker-item">Music Video</span>
+    <span class="ticker-item hi">✦</span>
+    <span class="ticker-item">Event Highlight</span>
+    <span class="ticker-item hi">✦</span>
+    <span class="ticker-item">Commercial</span>
+    <span class="ticker-item hi">✦</span>
+    <span class="ticker-item">Short Film</span>
+    <span class="ticker-item hi">✦</span>
+    <span class="ticker-item">Live Stream</span>
+    <span class="ticker-item hi">✦</span>
+    <!-- duplicate -->
+    <span class="ticker-item">TVC Production</span>
+    <span class="ticker-item hi">✦</span>
+    <span class="ticker-item">Documentary</span>
+    <span class="ticker-item hi">✦</span>
+    <span class="ticker-item">Music Video</span>
+    <span class="ticker-item hi">✦</span>
+    <span class="ticker-item">Event Highlight</span>
+    <span class="ticker-item hi">✦</span>
+    <span class="ticker-item">Commercial</span>
+    <span class="ticker-item hi">✦</span>
+    <span class="ticker-item">Short Film</span>
+    <span class="ticker-item hi">✦</span>
+    <span class="ticker-item">Live Stream</span>
+    <span class="ticker-item hi">✦</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <p class="sec-label reveal">What I Do</p>
+  <h2 class="sec-title reveal">Services</h2>
+  <div class="services-grid reveal">
+
+    <div class="service-card">
+      <span class="service-num">01</span>
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M8 6V4"/><path d="M16 6V4"/><circle cx="12" cy="13" r="3"/></svg>
+      </div>
+      <div class="service-name">TVC & Commercial</div>
+      <p class="service-desc">From brief to final cut — concept, script, production, and delivery. Helping brands communicate clearly and emotionally.</p>
+      <a href="#" class="service-arrow">Learn more →</a>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">02</span>
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M9 9l6 3-6 3V9z" fill="currentColor" stroke="none"/></svg>
+      </div>
+      <div class="service-name">Music Video</div>
+      <p class="service-desc">Recording, concept development, and full MV production that captures the artist's identity and visual world.</p>
+      <a href="#" class="service-arrow">Learn more →</a>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">03</span>
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 10H3"/><path d="M21 6H3"/><path d="M21 14H3"/><path d="M17 18H3"/></svg>
+      </div>
+      <div class="service-name">Documentary</div>
+      <p class="service-desc">Telling real stories with cinematic depth. Long-form or short — every subject deserves to be seen with dignity.</p>
+      <a href="#" class="service-arrow">Learn more →</a>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">04</span>
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+      </div>
+      <div class="service-name">Product Film</div>
+      <p class="service-desc">Fashion, food, tech, and lifestyle — product cinematography that makes what you sell impossible to ignore.</p>
+      <a href="#" class="service-arrow">Learn more →</a>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">05</span>
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="service-name">Event Highlight</div>
+      <p class="service-desc">Professional filming and highlight editing that captures the energy, emotion, and atmosphere of your event.</p>
+      <a href="#" class="service-arrow">Learn more →</a>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">06</span>
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+      </div>
+      <div class="service-name">Live Stream</div>
+      <p class="service-desc">Multi-camera live broadcast of programs, conferences, and performances — broadcast-quality to social media.</p>
+      <a href="#" class="service-arrow">Learn more →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio-section" id="work">
+  <p class="sec-label reveal">Selected Projects</p>
+  <h2 class="sec-title reveal">Recent <em>Work</em></h2>
+
+  <div class="filter-bar reveal">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="tvc">TVC</button>
+    <button class="filter-btn" data-filter="documentary">Documentary</button>
+    <button class="filter-btn" data-filter="event">Event</button>
+    <button class="filter-btn" data-filter="mv">Music Video</button>
+    <button class="filter-btn" data-filter="product">Product</button>
+    <button class="filter-btn" data-filter="short">Short Film</button>
+  </div>
+
+  <div class="portfolio-grid" id="portfolioGrid">
+
+    <div class="portfolio-item reveal" data-cat="tvc" data-yt="dQw4w9WgXcQ">
+      <div class="portfolio-placeholder p1">
+        <svg class="thumb-icon" width="80" height="60" viewBox="0 0 80 60" fill="none">
+          <rect x="4" y="4" width="72" height="52" rx="2" stroke="#f4f2ee" stroke-width="1.5"/>
+          <circle cx="40" cy="30" r="14" stroke="#f4f2ee" stroke-width="1.5"/>
+          <polygon points="36,24 36,36 48,30" fill="#f4f2ee"/>
+        </svg>
+      </div>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="portfolio-info">
+        <div class="portfolio-cat">TVC</div>
+        <div class="portfolio-title">Brand Launch Campaign 2024</div>
+        <div class="portfolio-client">Client: Samsung Vietnam</div>
+      </div>
+    </div>
+
+    <div class="portfolio-item reveal reveal-delay-1" data-cat="mv" data-yt="dQw4w9WgXcQ">
+      <div class="portfolio-placeholder p2">
+        <svg class="thumb-icon" width="60" height="60" viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="24" stroke="#f4f2ee" stroke-width="1.5"/>
+          <path d="M22 20 L46 30 L22 40 Z" stroke="#f4f2ee" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="portfolio-info">
+        <div class="portfolio-cat">Music Video</div>
+        <div class="portfolio-title">Design Today, Glow Tomorrow</div>
+        <div class="portfolio-client">Client: The Dewey School</div>
+      </div>
+    </div>
+
+    <div class="portfolio-item reveal reveal-delay-2" data-cat="event" data-yt="dQw4w9WgXcQ">
+      <div class="portfolio-placeholder p3">
+        <svg class="thumb-icon" width="60" height="60" viewBox="0 0 60 60" fill="none">
+          <rect x="8" y="14" width="44" height="32" rx="2" stroke="#f4f2ee" stroke-width="1.5"/>
+          <path d="M20 14V8M40 14V8" stroke="#f4f2ee" stroke-width="1.5"/>
+          <path d="M8 24h44" stroke="#f4f2ee" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="portfolio-info">
+        <div class="portfolio-cat">Event</div>
+        <div class="portfolio-title">Winter Concert Highlight</div>
+        <div class="portfolio-client">Client: TH School</div>
+      </div>
+    </div>
+
+    <div class="portfolio-item reveal reveal-delay-3" data-cat="documentary" data-yt="dQw4w9WgXcQ">
+      <div class="portfolio-placeholder p4">
+        <svg class="thumb-icon" width="60" height="60" viewBox="0 0 60 60" fill="none">
+          <path d="M10 50 Q20 20 30 30 Q40 40 50 10" stroke="#f4f2ee" stroke-width="1.5" fill="none"/>
+          <circle cx="30" cy="30" r="4" fill="#f4f2ee" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="portfolio-info">
+        <div class="portfolio-cat">Documentary</div>
+        <div class="portfolio-title">IStart Camp 2023</div>
+        <div class="portfolio-client">Client: VNUIS</div>
+      </div>
+    </div>
+
+    <div class="portfolio-item reveal" data-cat="tvc" data-yt="dQw4w9WgXcQ">
+      <div class="portfolio-placeholder p5">
+        <svg class="thumb-icon" width="80" height="60" viewBox="0 0 80 60" fill="none">
+          <rect x="4" y="8" width="52" height="44" rx="2" stroke="#f4f2ee" stroke-width="1.5"/>
+          <polygon points="68,10 80,30 68,50" stroke="#f4f2ee" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="portfolio-info">
+        <div class="portfolio-cat">TVC</div>
+        <div class="portfolio-title">Design Your World In Language</div>
+        <div class="portfolio-client">Client: Sakura Montessori</div>
+      </div>
+    </div>
+
+    <div class="portfolio-item reveal reveal-delay-1" data-cat="short" data-yt="dQw4w9WgXcQ">
+      <div class="portfolio-placeholder p6">
+        <svg class="thumb-icon" width="60" height="60" viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="22" stroke="#f4f2ee" stroke-width="1.5"/>
+          <line x1="30" y1="8" x2="30" y2="52" stroke="#f4f2ee" stroke-width="0.8"/>
+          <line x1="8" y1="30" x2="52" y2="30" stroke="#f4f2ee" stroke-width="0.8"/>
+          <circle cx="30" cy="30" r="6" stroke="#f4f2ee" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="portfolio-info">
+        <div class="portfolio-cat">Short Film</div>
+        <div class="portfolio-title">Between the Borders of Sleep</div>
+        <div class="portfolio-client">Sundance Selection · 2022</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="clients-section" id="clients">
+  <p class="clients-label reveal">Trusted by leading brands</p>
+  <div class="clients-grid reveal">
+    <div class="client-cell"><span class="client-name">Vietnam Airlines</span></div>
+    <div class="client-cell"><span class="client-name">Samsung</span></div>
+    <div class="client-cell"><span class="client-name">Techcombank</span></div>
+    <div class="client-cell"><span class="client-name">FPT Schools</span></div>
+    <div class="client-cell"><span class="client-name">BIDV</span></div>
+    <div class="client-cell"><span class="client-name">The Dewey</span></div>
+    <div class="client-cell"><span class="client-name">ACB Bank</span></div>
+    <div class="client-cell"><span class="client-name">EVN NPC</span></div>
+    <div class="client-cell"><span class="client-name">JA Vietnam</span></div>
+    <div class="client-cell"><span class="client-name">Aruna</span></div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar reveal">
+  <div class="stat-cell">
+    <span class="stat-n">120+</span>
+    <span class="stat-l">Projects Completed</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-n">50+</span>
+    <span class="stat-l">Brand Clients</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-n">8</span>
+    <span class="stat-l">Festival Awards</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-n">6+</span>
+    <span class="stat-l">Years Active</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-visual reveal">
+    <div class="about-img-wrap">
+      <div class="about-img-fill">
+        <svg width="200" height="260" viewBox="0 0 200 260" fill="none">
+          <circle cx="100" cy="90" r="50" stroke="#f4f2ee" stroke-width="1.5"/>
+          <path d="M25 260 Q25 165 100 165 Q175 165 175 260" stroke="#f4f2ee" stroke-width="1.5" fill="none"/>
+          <circle cx="100" cy="90" r="18" stroke="#f4f2ee" stroke-width="1"/>
+          <circle cx="100" cy="90" r="4" fill="#f4f2ee" opacity="0.4"/>
+        </svg>
+      </div>
+    </div>
+    <div class="about-badge">
+      <span class="about-badge-num">12</span>
+      <span class="about-badge-label">Years</span>
+    </div>
+  </div>
+  <div class="about-text">
+    <p class="sec-label reveal">About Me</p>
+    <h2 class="sec-title reveal">Every frame<br>is a <em>choice.</em></h2>
+    <p class="about-body reveal">I'm a cinematographer and Director of Photography based in <strong>Hanoi, Vietnam</strong>. I've spent over a decade working at the intersection of light, movement, and narrative — making images that do more than document.</p>
+    <p class="about-body reveal">Whether it's a <strong>TVC for a national brand</strong>, a music video for an independent artist, or a documentary about people the world hasn't noticed yet — my approach is the same: get close to the truth of the moment and let the camera follow.</p>
+    <div class="about-gear reveal">
+      <p class="gear-label">Equipment</p>
+      <div class="gear-tags">
+        <span class="gear-tag">ARRI Alexa 35</span>
+        <span class="gear-tag">RED V-Raptor</span>
+        <span class="gear-tag">Sony FX9</span>
+        <span class="gear-tag">Canon C70</span>
+        <span class="gear-tag">DJI Ronin 4D</span>
+        <span class="gear-tag">35mm Film</span>
+        <span class="gear-tag">Drone</span>
+        <span class="gear-tag">Gimbal</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-left">
+    <p class="sec-label reveal">Get In Touch</p>
+    <h2 class="contact-title reveal">
+      Let's<br>
+      <span>Make</span><br>
+      Film.
+    </h2>
+  </div>
+  <div class="contact-right reveal">
+    <p class="contact-desc">Available for TVC, documentary, commercial, music video, and experimental work. Always interested in projects that demand something new from the image.</p>
+    <div class="contact-info">
+      <div class="contact-row">
+        <span class="contact-row-label">Email</span>
+        <a href="mailto:hello@yourname.com" class="contact-row-val">hello@yourname.com</a>
+      </div>
+      <div class="contact-row">
+        <span class="contact-row-label">Phone</span>
+        <a href="tel:+84336568338" class="contact-row-val">+84 336 568 338</a>
+      </div>
+      <div class="contact-row">
+        <span class="contact-row-label">Based</span>
+        <span class="contact-row-val">Hanoi, Vietnam</span>
+      </div>
+    </div>
+    <div class="socials">
+      <a href="#" class="social-pill">YouTube</a>
+      <a href="#" class="social-pill">Vimeo</a>
+      <a href="#" class="social-pill">Instagram</a>
+      <a href="#" class="social-pill">Facebook</a>
+      <a href="#" class="social-pill">TikTok</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">YOUR NAME ·</div>
+  <div class="footer-right">© 2025 — Cinematographer · Hanoi, Vietnam</div>
+</footer>
+
+<!-- VIDEO MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-inner">
+    <button class="modal-close" id="modalClose">✕ Close</button>
+    <div class="modal-video" id="modalVideo"></div>
+  </div>
+</div>
+
+<script>
+// Scroll reveals
+const revealEls = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('on'); obs.unobserve(e.target); }});
+}, {threshold:0.1});
+revealEls.forEach(el => obs.observe(el));
+
+// Portfolio filter
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.portfolio-item').forEach(item => {
+      const show = f === 'all' || item.dataset.cat === f;
+      item.style.display = show ? '' : 'none';
+    });
+  });
+});
+
+// Video modal
+const modal = document.getElementById('modal');
+const modalVideo = document.getElementById('modalVideo');
+document.querySelectorAll('.portfolio-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const yt = item.dataset.yt;
+    modalVideo.innerHTML = `<iframe src="https://www.youtube.com/embed/${yt}?autoplay=1" allow="autoplay; fullscreen" allowfullscreen style="width:100%;height:100%;border:none"></iframe>`;
+    modal.classList.add('open');
+  });
+});
+document.getElementById('modalClose').addEventListener('click', () => {
+  modal.classList.remove('open');
+  modalVideo.innerHTML = '';
+});
+modal.addEventListener('click', e => {
+  if(e.target === modal){ modal.classList.remove('open'); modalVideo.innerHTML=''; }
+});
+</script>
+</body>
+</html>
